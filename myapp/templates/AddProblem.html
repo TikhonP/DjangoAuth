@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}КабоFix - Добавить проблему{% endblock%}
+{% block content %}
+<span class="navbar-text">
+      Вы вошли как {{ username }}
+    </span>
+<form style="margin-left: 15px;margin-right: 10px; " method="POST" action="/logout">
+    {% csrf_token %}
+    <input type="submit" value="Выйти" class="btn btn-outline-default my-2 my-sm-0">
+</form>
+{% endblock %}
+{% block card %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group" >
+        <label for="exampleFormControlTextarea1">Название:</label>
+        <input class="form-control" type="text" name="title" placeholder="Введите описание проблеиы коротко"/>
+        <label for="exampleFormControlTextarea1">Какой домик?</label>
+        <input class="form-control" type="text" name="home"/>
+        <label for="exampleFormControlTextarea1">Описание проблемы</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows=3 name="text" placeholder="Опишите проблему так, чтобы не пришлось вас переспрашивать"></textarea>
+        <input type="hidden" name="id" value="{{ problem.id }}"/>
+    </div>
+    <input type="submit" name="button" value="добавить" class="btn btn-primary"/>
+</form>
+{% endblock %}

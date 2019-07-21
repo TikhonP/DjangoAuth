@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}КабоFix{% endblock%}
+{% block content %}
+<span class="navbar-text">
+      Вы вошли как {{ username }}
+    </span>
+<form style="margin-left: 15px;margin-right: 10px;" method="POST" action="/logout">
+    {% csrf_token %}
+    <input type="submit" value="Выйти" class="btn btn-outline-default my-2 my-sm-0">
+</form>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/addproblem">Добавить проблему</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+{% block nav %}
+</nav>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+           aria-selected="true">Общие жалобы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+           aria-selected="false">Мои жалобы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+           aria-selected="false">Решенные</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        {% for problem in problems %}
+        <p></p>
+        <div class="card text-center">
+            <div class="card-header">
+                {{ problem.author }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ problem.title }}</h5>
+                <p class="card-text">{{ problem.text }}</p>
+                <a href="/like?id={{ problem.id }}" class="btn btn-primary">{{ problem.countlikes }} поддержать</a>
+            </div>
+            <div class="card-footer text-muted">
+                {{ problem.date }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        {% for myproblem in myproblems %}
+        <p></p>
+        <div class="card text-center">
+            <div class="card-header">
+                {{ myproblem.author }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ myproblem.title }}</h5>
+                <p class="card-text">{{ myproblem.text }}</p>
+                <p class="card-text">{{ myproblem.countlikes }} поддержавших</p>
+            </div>
+            <div class="card-footer text-muted">
+                {{ myproblem.date }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        {% for solvedproblem in solvedproblems %}
+        <p></p>
+        <div class="card text-center">
+            <div class="card-header">
+                {{ solvedproblem.author }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ solvedproblem.title }}</h5>
+                <p class="card-text">{{ solvedproblem.text }}</p>
+                <p class="card-text">{{ solvedproblem.countlikes }} поддержавших</p>
+            </div>
+            <div class="card-footer text-muted">
+                {{ solvedproblem.date }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<p></p>
+{% endblock %}
+
+{% block card %}
+{% endblock %}
